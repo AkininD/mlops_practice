@@ -1,0 +1,33 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Create data directory') {
+            steps {
+                sh 'mkdir -p lab2/data'
+            }
+        }
+        stage('Create model directory') {
+            steps {
+                sh 'mkdir -p lab2/model'
+            }
+        }
+        stage('Fetch and prepare data') {
+            steps {
+                sh 'python3 lab2/fetch_data.py'
+            }
+        }
+        stage('Train model') {
+            steps {
+                sh 'python3 lab2/train_model.py'
+            }
+        }
+        stage('Evaluate model') {
+            steps {
+                sh 'python3 lab2/evaluate_model.py'
+            }
+        }
+    }
+}
