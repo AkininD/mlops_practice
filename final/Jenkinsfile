@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'myapp'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${env.IMAGE_NAME} final"
+            }
+        }
+
+        stage('Run Pytest') {
+            steps {
+                sh "docker run --rm -p 81:81 ${env.IMAGE_NAME} pytest"
+            }
+        }
+    }
+}
